@@ -86,13 +86,15 @@ class Generator:
         table_spec = unique_spec
         table_spec.extend(unique_spec)
         table_spec = sorted(table_spec, reverse = True)
+        tnames = []
         
         for table in tables:
             table.to_excel(writer, sheet_name = 'Summary', startrow = row, startcol = 0)
             row = row + len(table.index) + 7
             table_number += 1
 
-            print('Table {} {} of {} {} in {} {} (kg)'.format(table_number, table_names[table_number % 2], product, table_spec[table_number-1], month, year))
-            print('')
+            tnames.append('Table {} {} of {} {} in {} {} (kg)'.format(table_number, table_names[table_number % 2], product, table_spec[table_number-1], month, year))
 
         writer.save()
+
+        return tnames
