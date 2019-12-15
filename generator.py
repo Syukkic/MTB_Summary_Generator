@@ -38,7 +38,7 @@ class Generator:
                 data.at[index, 'New_Spec'] = row['Specification']
         
         unique_spec = sorted(list(data['New_Spec'].unique()), reverse = True)
-        print('Specification are ', unique_spec)
+        # print('Specification are ', unique_spec)
 
         return unique_spec
 
