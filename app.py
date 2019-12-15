@@ -16,20 +16,23 @@ class MainWindowUIClass(Ui_MainWindow):
         super().setupUi(MW)
 
     def info_print(self, msg):
-        self.textEdit.append(msg)
+        self.printf(msg)
 
     def returnPressedSlot(self):
-        self.generator.extract_specs(self.textEdit.toPlainText())
-        self.generator.save_to_excel(self.textEdit.toPlainText())
+        self.generator.extract_specs(self.textBrowser.toPlainText())
+        self.generator.save_to_excel(self.textBrowser.toPlainText())
 
     def generateSlot(self):
         data = self.generator.read_file(str(self.fileName))
         product = self.generator.get_product_name(data)
         year, month = self.generator.get_date(data)
         unique_spec = self.generator.extract_specs(data)
-        self.info_print(unique_spec)
+        for n in range(len(unique_spec)):
+            self.printf('{}: {}'.format(n+1, unique_spec[n]))
         tables = self.generator.pivot_table(data, unique_spec)
-        self.generator.save_to_excel(product, year, month, tables, unique_spec)
+        tnames = self.generator.save_to_excel(product, year, month, tables, unique_spec)
+        for tname in tnames:
+            self.printf(tname)
 
     def browseSlot(self):
         options = QtWidgets.QFileDialog.Options()
