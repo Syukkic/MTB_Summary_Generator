@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot
-from mainwindows import Ui_MainWindow
+from mainwindow import Ui_MainWindow
 import sys
 from generator import Generator
 
