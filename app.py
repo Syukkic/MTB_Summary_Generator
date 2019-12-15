@@ -18,10 +18,6 @@ class MainWindowUIClass(Ui_MainWindow):
     def info_print(self, msg):
         self.printf(msg)
 
-    def returnPressedSlot(self):
-        self.generator.extract_specs(self.textBrowser.toPlainText())
-        self.generator.save_to_excel(self.textBrowser.toPlainText())
-
     def generateSlot(self):
         data = self.generator.read_file(str(self.fileName))
         product = self.generator.get_product_name(data)
