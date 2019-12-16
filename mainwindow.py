@@ -9,7 +9,7 @@ class Ui_MainWindow(QObject):
         MainWindow.resize(645, 527)
         MainWindow.setAcceptDrops(False)
         icon = QIcon()
-        icon.addPixmap(QPixmap("pic/icon.png"), QIcon.Normal, QIcon.Off)
+        icon.addPixmap(QPixmap("pics/icon.png"), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setAutoFillBackground(False)
         self.centralwidget = QWidget(MainWindow)

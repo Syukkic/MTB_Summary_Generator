@@ -1,4 +1,3 @@
-import xlsxwriter
 from numpy import sum
 from pandas import DataFrame, pivot_table, ExcelWriter, read_excel
 from dateutil.parser import parse
