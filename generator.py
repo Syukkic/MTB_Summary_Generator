@@ -1,5 +1,6 @@
-import numpy as np
-import pandas as pd
+import xlsxwriter
+from numpy import sum
+from pandas import DataFrame, pivot_table, ExcelWriter, read_excel
 from dateutil.parser import parse
 
 class Generator:
@@ -8,7 +9,7 @@ class Generator:
     
     def read_file(self, filename):
         try:
-            data = pd.read_excel(str(filename), sheet_name=1, skiprows=1)
+            data = read_excel(str(filename), sheet_name=1, skiprows=1)
             data.index += 1
             return data
         except:
@@ -48,7 +49,7 @@ class Generator:
 
         for n in range(len(unique_spec)):
             #  Generate destination pivot table
-            pt_destination = pd.pivot_table(data[data['New_Spec'] == unique_spec[n]], index = ['Destination'], columns = ['Buyer'], values = ['Quantity'], aggfunc = [np.sum], fill_value = 0, margins = True, margins_name = 'Total')
+            pt_destination = pivot_table(data[data['New_Spec'] == unique_spec[n]], index = ['Destination'], columns = ['Buyer'], values = ['Quantity'], aggfunc = [sum], fill_value = 0, margins = True, margins_name = 'Total')
             pt_destination = pt_destination.sort_values(('sum', 'Quantity', 'Total'), ascending = False)
 
             # ranking the buyer
@@ -62,7 +63,7 @@ class Generator:
             tables.append(pt_destination)
 
             #  Generate exporter pivot table
-            pt_exporter = pd.pivot_table(data[data['New_Spec'] == unique_spec[n]], index = ['Company'], columns = ['Buyer'], values = ['Quantity'], aggfunc = [np.sum], fill_value = 0, margins = True, margins_name = 'Total')
+            pt_exporter = pivot_table(data[data['New_Spec'] == unique_spec[n]], index = ['Company'], columns = ['Buyer'], values = ['Quantity'], aggfunc = [sum], fill_value = 0, margins = True, margins_name = 'Total')
             pt_exporter = pt_exporter.sort_values(('sum', 'Quantity', 'Total'), ascending = False)
             pt_exporter.index.name = 'Exporter'
 
@@ -79,7 +80,7 @@ class Generator:
         return tables
 
     def save_to_excel(self, product, year, month, tables, unique_spec):
-        writer = pd.ExcelWriter("result.xlsx", engine = 'xlsxwriter')
+        writer = ExcelWriter("result.xlsx", engine = 'xlsxwriter')
         row = 2
         table_number = 0
         table_names = ['Exporters and buyers', 'Destinations and buyers']

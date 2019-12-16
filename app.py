@@ -1,5 +1,5 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QObject, pyqtSlot
+from PyQt5.QtWidgets import QFileDialog, QApplication, QMainWindow
+from PyQt5.QtCore import pyqtSlot
 from mainwindow import Ui_MainWindow
 import sys
 from generator import Generator
@@ -31,9 +31,9 @@ class MainWindowUIClass(Ui_MainWindow):
             self.printf(tname)
 
     def browseSlot(self):
-        options = QtWidgets.QFileDialog.Options()
-        options |= QtWidgets.QFileDialog.DontUseNativeDialog
-        self.fileName, _ = QtWidgets.QFileDialog.getOpenFileName(
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        self.fileName, _ = QFileDialog.getOpenFileName(
             None, 'QFileDialog.getOpenFileName()', '',
             'All Files (*);;Excel Files (*.xlsx)',
             options = options
@@ -43,8 +43,8 @@ class MainWindowUIClass(Ui_MainWindow):
         
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
+    app = QApplication(sys.argv)
+    MainWindow = QMainWindow()
     ui = MainWindowUIClass()
     ui.setupUi(MainWindow)
     MainWindow.show()
