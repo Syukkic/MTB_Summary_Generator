@@ -15,7 +15,7 @@ class Generator:
             return "Your file went wrong!"
 
     def get_product_name(self, data):
-        product = data['Product'].unique()[0]
+        product = data['Product'].unique()[0].lower()
         return product
 
     def get_date(self, data):
@@ -32,13 +32,22 @@ class Generator:
 
     def extract_specs(self, data):
         for index, row in data.iterrows():
-            if row['Specification'][-5:] == 'Tech.':
-                data.at[index, 'New_Spec'] = 'Technical'
-            elif '·' in row['Specification']:
-                compound = row['Specification'].split(' ')[0]
-                data.at[index, 'New_Spec'] = compound
+            if '·' not in row['Specification']:
+                if row['Specification'][-5:] == 'Tech.':
+                    data.at[index, 'New_Spec'] = 'technical'
+                else:
+                    data.at[index, 'New_Spec'] = row['Specification']
             else:
-                data.at[index, 'New_Spec'] = row['Specification']
+                formulation = row['Specification'].split(' ')[0].split('·')[-1].lower() + ' ' + 'formulations'
+                data.at[index, 'New_Spec'] = formulation
+
+        for index, row in data.iterrows():
+            if row['New_Spec'] != 'technical':
+                if len(row['New_Spec'].split(' ')) >= 3:
+                    data.at[index, 'New_Spec'] = 'formulations'
+                else:
+                    data.at[index, 'New_Spec'] = row['New_Spec']
+            
         
         unique_spec = sorted(list(data['New_Spec'].unique()), reverse = True)
         # print('Specification are ', unique_spec)
