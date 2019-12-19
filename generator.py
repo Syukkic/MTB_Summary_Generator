@@ -34,6 +34,9 @@ class Generator:
         for index, row in data.iterrows():
             if row['Specification'][-5:] == 'Tech.':
                 data.at[index, 'New_Spec'] = 'Technical'
+            elif '·' in row['Specification']:
+                compound = row['Specification'].split(' ')[0]
+                data.at[index, 'New_Spec'] = compound
             else:
                 data.at[index, 'New_Spec'] = row['Specification']
         
