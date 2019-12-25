@@ -43,7 +43,7 @@ class Generator:
 
         for index, row in data.iterrows():
             if row['New_Spec'] != 'technical':
-                if len(row['New_Spec'].split(' ')) >= 3:
+                if len(row['New_Spec'].split(' ')) >= 7:
                     data.at[index, 'New_Spec'] = 'formulations'
                 else:
                     data.at[index, 'New_Spec'] = row['New_Spec']
@@ -61,29 +61,31 @@ class Generator:
         for n in range(len(unique_spec)):
             #  Generate destination pivot table
             pt_destination = pivot_table(data[data['New_Spec'] == unique_spec[n]], index = ['Destination'], columns = ['Buyer'], values = ['Quantity'], aggfunc = [sum], fill_value = 0, margins = True, margins_name = 'Total')
-            pt_destination = pt_destination.sort_values(('sum', 'Quantity', 'Total'), ascending = False)
+            pt_destination = pt_destination.sort_values(('sum', 'Quantity', 'Total'), ascending = True)
 
             # ranking the buyer
-            pt_destination.T.sort_values(('Buyer'), ascending = True).T
-            pt_destination = pt_destination
+            pt_destination = pt_destination.T.sort_values(('Buyer'), ascending = True).T
+            # pt_destination = pt_destination
 
             # Move the top total to the bottom
-            total = pt_destination.iloc[[0], :]
+            total = pt_destination.iloc[[-1], :]
+            pt_destination = pt_destination.sort_values(('sum', 'Quantity', 'Total'), ascending = False)
             pt_destination = pt_destination.drop(index = 'Total')
             pt_destination = pt_destination.append(total)
             tables.append(pt_destination)
 
             #  Generate exporter pivot table
             pt_exporter = pivot_table(data[data['New_Spec'] == unique_spec[n]], index = ['Company'], columns = ['Buyer'], values = ['Quantity'], aggfunc = [sum], fill_value = 0, margins = True, margins_name = 'Total')
-            pt_exporter = pt_exporter.sort_values(('sum', 'Quantity', 'Total'), ascending = False)
+            pt_exporter = pt_exporter.sort_values(('sum', 'Quantity', 'Total'), ascending = True)
             pt_exporter.index.name = 'Exporter'
 
             # ranking the buyer
-            pt_exporter.T.sort_values(('Buyer'), ascending = True).T
-            pt_exporter = pt_exporter
+            pt_exporter = pt_exporter.T.sort_values(('Buyer'), ascending = True).T
+            # pt_exporter = pt_exporter
 
             # Move the top total to the bottom
-            total = pt_exporter.iloc[[0], :]
+            total = pt_exporter.iloc[[-1], :]
+            pt_exporter = pt_exporter.sort_values(('sum', 'Quantity', 'Total'), ascending = False)
             pt_exporter = pt_exporter.drop(index = 'Total')
             pt_exporter = pt_exporter.append(total)
             tables.append(pt_exporter)
