@@ -64,8 +64,8 @@ class Generator:
             pt_destination = pt_destination.sort_values(('sum', 'Quantity', 'Total'), ascending = True)
 
             # ranking the buyer
-            pt_destination = pt_destination.T.sort_values(('Buyer'), ascending = True).T
-            # pt_destination = pt_destination
+            pt_destination.T.sort_values(('Buyer'), ascending = True).T
+            pt_destination = pt_destination
 
             # Move the top total to the bottom
             total = pt_destination.iloc[[-1], :]
@@ -80,8 +80,8 @@ class Generator:
             pt_exporter.index.name = 'Exporter'
 
             # ranking the buyer
-            pt_exporter = pt_exporter.T.sort_values(('Buyer'), ascending = True).T
-            # pt_exporter = pt_exporter
+            pt_exporter.T.sort_values(('Buyer'), ascending = True).T
+            pt_exporter = pt_exporter
 
             # Move the top total to the bottom
             total = pt_exporter.iloc[[-1], :]
