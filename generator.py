@@ -63,7 +63,7 @@ class Generator:
             pt_destination = pivot_table(data[data['New_Spec'] == unique_spec[n]], index = ['Destination'], columns = ['Buyer'], values = ['Quantity'], aggfunc = [sum], fill_value = 0, margins = True, margins_name = 'Total')
             pt_destination = pt_destination.sort_values(('sum', 'Quantity', 'Total'), ascending = True)
 
-            # ranking the buyer
+            # ranking the buyer and move TOTAL to the end of column
             pt_destination.T.sort_values(('Buyer'), ascending = True).T
             pt_destination = pt_destination
 
@@ -79,7 +79,7 @@ class Generator:
             pt_exporter = pt_exporter.sort_values(('sum', 'Quantity', 'Total'), ascending = True)
             pt_exporter.index.name = 'Exporter'
 
-            # ranking the buyer
+            # ranking the buyer and move TOTAL to the end of column
             pt_exporter.T.sort_values(('Buyer'), ascending = True).T
             pt_exporter = pt_exporter
 
