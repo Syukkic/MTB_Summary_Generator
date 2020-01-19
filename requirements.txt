@@ -1,5 +1,4 @@
 XlsxWriter==1.2.6
-PyInstaller==3.5
-PyInstaller==3.5
+PyInstaller>=3.6
 numpy==1.17.3
 pandas==0.25.2
